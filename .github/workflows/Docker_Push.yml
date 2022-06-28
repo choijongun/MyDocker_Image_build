@@ -10,13 +10,7 @@ jobs:
     steps:
       - name: CheckOut
         uses: actions/checkout@v3
-      
-      - name: Docker MetaData
-        id: Docker_Meta
-        uses: docker/metadata-action@v1
-        with:
-          images: chlzzz/myrepo
-            
+
       - name: SetUP Docker Buildx
         uses: docker/setup-buildx-action@v2.0.0
         
@@ -32,4 +26,4 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ steps.Docker_Meta.outputs.tags }}
+          tags: chlzzz/myrepo:latest
