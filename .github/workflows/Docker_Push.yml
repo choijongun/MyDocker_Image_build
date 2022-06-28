@@ -13,12 +13,9 @@ jobs:
       
       - name: Docker MetaData
         id: Docker_Meta
-        uses: docker/metadata-action@v1
+        uses: docker/metadata-action@v4.0.1
         with:
           images: chlzzz/myrepo
-          tag-semver: |
-            {{version}}
-            {{major}}.{{minor}}
             
       - name: SetUP Docker Buildx
         uses: docker/setup-buildx-action@v2.0.0
@@ -35,5 +32,5 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ steps.Docker_Meta.outputs.tags }}
-          labels: ${{ steps.Docker_Meta.outputs.labels }}
+          tags: latest
+
