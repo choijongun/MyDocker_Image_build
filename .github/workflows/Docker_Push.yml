@@ -10,6 +10,15 @@ jobs:
     steps:
       - name: CheckOut
         uses: actions/checkout@v3
+      
+      - name: Docker MetaData
+        id: Docker_Meta
+        uses: docker/metadata-action@v1
+        with:
+          images: chlzzz/myrepo
+          tag-semver: |
+            {{version}}
+            {{major}}.{{minor}}
             
       - name: SetUP Docker Buildx
         uses: docker/setup-buildx-action@v2.0.0
@@ -21,11 +30,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Build and Push Docker Image
-        env:
-          NAME: chlzzz
-          REPO: myrepo
-          run: |
-            docker build -t $REPO
-            docker tag $REPO:latest $NAME/$REPO:latest
-            docker push $NAME/$REPO:latest
-          
+        uses: docker/build-push-action@v3.0.0
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ steps.Docker_Meta.outputs.tags }}
+          labels: ${{ steps.Docker_Meta.outputs.labels }}
