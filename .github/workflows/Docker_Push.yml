@@ -32,8 +32,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v3.0.0
         with:
-          context: ./
-          file: ./Dockerfile
+          context: .
           push: true
           tags: ${{ steps.Docker_Meta.outputs.tags }}
           labels: ${{ steps.Docker_Meta.outputs.labels }}
